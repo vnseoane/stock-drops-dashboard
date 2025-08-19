@@ -116,7 +116,9 @@ def hist_returns(
 
 
 def heatmap_calendar(pivot: pd.DataFrame, title: str = "Año × Mes") -> go.Figure:
+    # columnas = meses (1..12), index = años
     pivot = pivot.copy().reindex(sorted(pivot.columns), axis=1)
+
     fig = px.imshow(
         pivot,
         aspect="auto",
@@ -125,20 +127,15 @@ def heatmap_calendar(pivot: pd.DataFrame, title: str = "Año × Mes") -> go.Figu
         zmax=pivot.max().max(),
         color_continuous_midpoint=0,
     )
+
+    # ✅ hover en porcentaje y con etiquetas claras
+    fig.update_traces(
+        hovertemplate="Mes: %{x}<br>Año: %{y}<br>Retorno: %{z:.2%}<extra></extra>"
+    )
+
+    # Eje, colorbar y layout
     fig.update_layout(title=title, margin=dict(l=40, r=20, t=60, b=40))
     fig.update_coloraxes(colorbar_title="Retorno", colorbar_tickformat=".0%")
-    fig.update_xaxes(type="category")
-    return fig
+    fig.update_xaxes(type="category")  # mostrar meses como 1..12, no como continuo
 
-
-def bar_threshold_counts(counts: pd.Series, title: str = "Meses ≤ umbral") -> go.Figure:
-    df = counts.rename("Meses").reset_index().rename(columns={"index": "Ticker"})
-    fig = px.bar(df, x="Ticker", y="Meses")
-    fig.update_layout(
-        title=title,
-        xaxis_title="Ticker",
-        yaxis_title="Meses",
-        hovermode="x",
-        margin=dict(l=40, r=20, t=60, b=40),
-    )
     return fig

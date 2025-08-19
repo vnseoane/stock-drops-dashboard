@@ -1,2 +1,0 @@
-source .venv/Scripts/activate
-streamlit run app/main.py
