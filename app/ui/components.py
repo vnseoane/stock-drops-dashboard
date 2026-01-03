@@ -3,14 +3,14 @@ import pandas as pd
 
 def kpi_row(kpis: dict[str, str]) -> None:
     """
-    Renderiza KPIs en columnas.
-    - Si el valor viene con <span ...> (para colorear), lo mostramos con HTML
-      pero manteniendo el tamaño de fuente similar a st.metric (~2rem).
+    Render KPIs in columns.
+    - If the value comes with <span ...> (for coloring), display it with HTML
+      but maintaining font size similar to st.metric (~2rem).
     """
     cols = st.columns(len(kpis))
     for col, (label, value) in zip(cols, kpis.items()):
         if isinstance(value, str) and value.strip().startswith("<span"):
-            # Tamaño grande + mismo look que un metric
+            # Large size + same look as a metric
             html = (
                 f"<div style='font-weight:600; opacity:0.6'>{label}</div>"
                 f"<div style='font-size:2rem; line-height:1.2; font-weight:700; margin-top:0.25rem'>{value}</div>"

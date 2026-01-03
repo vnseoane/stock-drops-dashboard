@@ -5,18 +5,18 @@ import pandas as pd
 
 @dataclass(frozen=True)
 class ReturnConfig:
-    frequency: str = "M"  # "M" mensual, "W" semanal
+    frequency: str = "M"  # "M" monthly, "W" weekly
     min_history_months: int = 12
 
 
 def to_period_returns(df: pd.DataFrame, cfg: ReturnConfig) -> pd.DataFrame:
     if 'Adj Close' not in df.columns:
-        raise ValueError("Falta columna 'Adj Close'")
+        raise ValueError("Missing 'Adj Close' column")
     if not isinstance(df.index, pd.DatetimeIndex):
         if 'Date' in df.columns:
             df = df.set_index(pd.to_datetime(df['Date']))
         else:
-            raise ValueError("Se requiere índice datetime o columna Date")
+            raise ValueError("Datetime index or 'Date' column required")
     px = df[['Adj Close']].resample(cfg.frequency).last().dropna()
     px['ret'] = px['Adj Close'].pct_change()
     return px.dropna()

@@ -4,8 +4,8 @@ import pandas as pd
 
 def align_by_period(dfs: dict[str, pd.DataFrame], freq: str = "M") -> pd.DataFrame:
     """
-    Alinea varios DataFrames de precios por período (M/W) y devuelve un panel
-    con una columna por ticker. Usa 'Adj Close' y el último valor del período.
+    Align multiple price DataFrames by period (M/W) and return a panel
+    with one column per ticker. Uses 'Adj Close' and the last value of the period.
     """
     out = []
     for tkr, df in dfs.items():
@@ -20,10 +20,10 @@ def align_by_period(dfs: dict[str, pd.DataFrame], freq: str = "M") -> pd.DataFra
 
 def pct_above_threshold(ret_df: pd.DataFrame, threshold: float) -> float:
     """
-    Porcentaje de períodos con retorno >= umbral.
-    - ret_df: DataFrame con columna 'ret' (retornos del período, p.ej. mensual)
-    - threshold: umbral en proporción (ej: -0.08 para -8%)
-    Devuelve un float entre 0.0 y 1.0
+    Percentage of periods with return >= threshold.
+    - ret_df: DataFrame with 'ret' column (period returns, e.g. monthly)
+    - threshold: threshold as proportion (e.g.: -0.08 for -8%)
+    Returns a float between 0.0 and 1.0
     """
     if ret_df is None or ret_df.empty or "ret" not in ret_df.columns:
         return 0.0

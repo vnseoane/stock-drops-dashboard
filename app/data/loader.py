@@ -11,7 +11,7 @@ class LoadConfig:
 
 
 def load_from_yf(tickers: List[str], cfg: LoadConfig) -> Dict[str, pd.DataFrame]:
-    """Descarga precios ajustados por ticker desde yfinance."""
+    """Download adjusted prices by ticker from yfinance."""
     out: Dict[str, pd.DataFrame] = {}
     period = f"{cfg.period_years}y"
     for t in tickers:
@@ -27,7 +27,7 @@ def load_from_yf(tickers: List[str], cfg: LoadConfig) -> Dict[str, pd.DataFrame]
 
 
 def load_from_csv(file: bytes) -> pd.DataFrame:
-    """Lee un CSV subido por el usuario y devuelve DataFrame con índice datetime."""
+    """Read a CSV uploaded by the user and return DataFrame with datetime index."""
     import io
     df = pd.read_csv(io.BytesIO(file))
     if "Date" in df.columns:
